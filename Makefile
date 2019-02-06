@@ -1,6 +1,6 @@
 CFLAGS = -g -Wall
 
-all: ish
+all: ish git
 
 ish: ish.o lex.yy.o
 	gcc -o ish ish.o lex.yy.o -lfl  
@@ -14,10 +14,13 @@ lex.yy.c: lex.c
 
 git: *.c Makefile
 	git add Makefile
-	git add CIS3110_A1_2019.pdf
 	git add *.c
-	git commit -a
-	git push
+	git commit -m "automatic makefile backup"
+	git remote rm origin
+	git config credential.helper store
+	git config --global credential.helper 'cache --timeout 3600'
+	git remote add origin https://github.com/mvanbraeckel/shellOS_3110.git
+	git push -u origin master
 
 clean:
 	rm -f *.o lex.yy.c ish
