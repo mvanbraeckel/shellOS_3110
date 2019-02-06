@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
     int i;
     char **args;
     
+    // loop until "exit" is entered
     while (1) {
         // get user ID in text format from password struct
         struct passwd *password = getpwuid(getuid()); // set errno to 0 before call, then check after

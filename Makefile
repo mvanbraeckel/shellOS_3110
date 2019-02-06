@@ -12,14 +12,13 @@ lex.yy.o: lex.yy.c
 lex.yy.c: lex.c
 	flex lex.c
 
-git: *.c
+git: *.c Makefile
 	git add Makefile
 	git add CIS3110_A1_2019.pdf
 	git add *.c
 	git commit -a
 	git push
+	mvanbraeckel
 
 clean:
-	rm -f *.o
-	rm -f lex.yy.c
-	rm -f ish
+	rm -f *.o lex.yy.c ish
