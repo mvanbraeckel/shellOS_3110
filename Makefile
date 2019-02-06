@@ -18,7 +18,6 @@ git: *.c Makefile
 	git add *.c
 	git commit -a
 	git push
-	mvanbraeckel
 
 clean:
 	rm -f *.o lex.yy.c ish
