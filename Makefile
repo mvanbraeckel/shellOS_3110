@@ -13,7 +13,9 @@ lex.yy.c: lex.c
 	flex lex.c
 
 git: *.c
-	git add *
+	git add Makefile
+	git add CIS3110_A1_2019.pdf
+	git add *.c
 	git commit -a
 	git push
 
