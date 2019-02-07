@@ -105,8 +105,14 @@ int main() {
             exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
-            if(execvp(args[0], args) == -1) { // need to check errno :TODO
-                exit(EXIT_FAILURE);
+            if(args[0] == "gcd") {
+                if(execvp("gcd", args) == -1) { // need to check errno :TODO
+                    exit(EXIT_FAILURE);
+                }
+            } else{
+                if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                    exit(EXIT_FAILURE);
+                }
             }
                  
         } else { // parent process (waits for child to finish)
