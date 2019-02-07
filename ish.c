@@ -131,6 +131,7 @@ int main() {
         } else if(pid == 0) { // child process
             if(strcmp(args[0], "baa") == 0) {
                 if(execvp("./gcd", args) == -1) { // need to check errno :TODO
+                    perror("bad input\n");
                     exit(EXIT_FAILURE);
                 }
             } else{
