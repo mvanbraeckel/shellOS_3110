@@ -83,31 +83,7 @@ int main() {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
-                // check that proper #of arguments were inputted
-                if(argc == 1) {
-                    fprintf(stderr, "Usage: %s [arguments]+\n", args[0]);
-                    continue;
-                }
-                // count and print number of arguments (other than "args")
-                for(argc = 1; args[argc] != NULL; argc++);
-                fprintf(stdout, "argc = %d, args = ", argc-1);
-
-                // print all other arguments separated by ", "
-                for(int j = 1; args[j] != NULL; j++) {
-                    // replace '\n' w/ '\0' if it's there
-                    for(int c = 0; args[j][c] != '\n' && args[j][c] != '\0'; c++) {
-                        if(args[j][c] == '\n') {
-                            args[j][c] = '\0';
-                        }
-                    }
-                    // print the argument
-                    if(j == 1) {
-                        fprintf(stdout, "%s", args[j]);
-                    } else {
-                        fprintf(stdout, ", %s", args[j]);
-                    }
-                }
-                fprintf(stdout, "\n");
+                listargs(argc, args);
                 continue; //skip to next loop
 
             } else if(strcmp(args[0], "gcd") == 0) {
