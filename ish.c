@@ -70,7 +70,6 @@ int main() {
         argc = 0;
         // find number of arguments
         for(argc = 0; args[argc] != NULL; argc++);
-        printf("\t#args = %d\n", argc);
         
         if(argc <= 0) {
             continue; //skip because no arguments
@@ -84,7 +83,7 @@ int main() {
 
         // check for command
         if(args[0] != NULL) {
-            if(strcmp(args[0], "exit") == 0) {
+            if(argc == 0 && strcmp(args[0], "exit") == 0) {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
