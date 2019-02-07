@@ -17,7 +17,7 @@ int isValid(char* strNum);
 int main(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
-        fprintf(stderr, "Usage: %s <positive integer number 1> <positive integer number 2>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <positive integer 1> <positive integer 2>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
     if(!checkNum1 || !checkNum2) {
         // display error msg before exiting
-        fprintf(stderr, "Error: arguments must be valid integer numbers in decimal or " \
+        fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
                 "hexadecimal (0x0) format\n");
         exit(EXIT_FAILURE);
     }
