@@ -23,9 +23,7 @@ int main(int argc, char* argv[]) {
 
     // declare variables
     int checkNum1, checkNum2;
-    long num1 = 0;
-    long num2 = 0;;
-    long ans = 0;
+    long num1, num2, ans;
 
     // check that both numbers are valid integers in hex or decimal
     checkNum1 = isValid(argv[1]);
@@ -43,6 +41,7 @@ int main(int argc, char* argv[]) {
     num2 = strtol(argv[2], NULL, checkNum2);
 
     // calculate GCD
+    ans = calcGCD(num1, num2);
 
     // print output
     fprintf(stdout, "%s = %ld\n", argv[1], num1);
