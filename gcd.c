@@ -3,6 +3,7 @@
  * 06/02/2019
  * CIS*3110: Operating Systems A1 - simple shell
  *  --> displays the greatest common denominator of two (decimal or hexadecimal) numbers
+ * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
  */
 
 #include <stdio.h>
@@ -12,33 +13,35 @@
 
 // inlcudes
 long calcGCD(long a, long b);
-int isValid(char* strNum);
+int isHex(char* strNum);
 
 int main(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
-        fprintf(stderr, "Usage: %s <positive integer 1> <positive integer 2>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     // declare variables
-    int checkNum1, checkNum2;
+    int hexCheckNum1, hexCheckNum2;
     long num1, num2, ans;
+    char *ptr1, *ptr2;
+
+    hexCheckNum1 = isHex(argv[1]);
+    hexCheckNum2 = isHex(argv[2]);
+
+    // convert arguments to integers (different conversion for hex or decimal)
+    num1 = strtol(argv[1], ptr1, hexCheckNum1);
+    num2 = strtol(argv[2], ptr2, hexCheckNum2);
 
     // check that both numbers are valid integers in hex or decimal
-    checkNum1 = isValid(argv[1]);
-    checkNum2 = isValid(argv[2]);
-
-    if(!checkNum1 || !checkNum2) {
+    if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
         // display error msg before exiting
         fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
                 "hexadecimal (0x0) format\n");
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-
-    // convert arguments to integers (different conversion for hex or decimal)
-    num1 = strtol(argv[1], NULL, checkNum1);
-    num2 = strtol(argv[2], NULL, checkNum2);
 
     // calculate GCD
     ans = calcGCD(num1, num2);
@@ -70,7 +73,7 @@ long calcGCD(long a, long b) {
  * @param char* strNum -the inputted number to bec validated
  * @return 0 if it's not valid, 16 if it's a valid hexadecimal number, 10 for valid decimal number
  */
-int isValid(char* strNum) {
+/*int isValid(char* strNum) {
     // declare variables
     int i;
     int xFound = 0; //false
@@ -99,4 +102,23 @@ int isValid(char* strNum) {
     } else {
         return 10; // valid decimal
     }
+}*/
+
+/**
+ * Checks if a number is in hexadecimal form
+ * @param char* strNum -the number to be checked
+ * @return 16 if it's a hex number, 10 otherwise
+ */
+int isHex(char* strNum) {
+    // is of hex form if the 'x' is in the right spot
+    // account for negatives
+    int len = strlen(strNum);
+    if(len > 0 && strNum[0] == '-') {
+        if(len > 2 && strNum[2] == 'x') {
+            return 16; // negative hex
+        }
+    } else if(len > 1 && strNum[1] == 'x') {
+        return 16; // hex
+    }
+    return 10;
 }
