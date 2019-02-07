@@ -16,10 +16,11 @@
 // ================================= FUNCTION PROTOTYPES =================================
 void signalHandler(int signalPassed);
 
-long gcd(int argc, char* argv[]);
+void gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
 int isHex(char* strNum);
 void lcm(int argc, char* arv[]);
+long calcLCM(long a, long b);
 
 // =======================================================================================
 
@@ -109,13 +110,7 @@ int main() {
                 continue; //skip to next loop
 
             } else if(strcmp(args[0], "gcd") == 0) {
-                // calculate the greatest common denominator
-                long result = gcd(argc, args);
-                if(result < 0) {
-                    result *= -1;
-                }
-                // print output
-                fprintf(stdout, "GCD(%s, %s) = %ld\n", args[1], args[2], result);
+                gcd(argc, args);
                 continue; //skip to next loop
             }
         }
@@ -170,6 +165,52 @@ void signalHandler(int signalPassed) {
 // ========================================= GCD =========================================
 
 /**
+ * Built-in/Internal Command: Displays the greatest common denominator of two (decimal or hexadecimal) numbers
+ * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
+ * @param int argc -the number of arguments
+ * @param char* argv[] -used for the array of arguments
+ * @return no return because it just runs its program and prints the result
+ */
+void gcd(int argc, char* argv[]) {
+    // check that proper #of arguments were inputted
+    if(argc != 3) {
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        return;
+    }
+
+    // declare variables
+    int hexCheckNum1, hexCheckNum2;
+    long num1, num2, ans;
+    char *ptr1, *ptr2;
+
+    // check is its a hex number, set it to 16, otherwise 10 (decimal by default)
+    hexCheckNum1 = isHex(argv[1]);
+    hexCheckNum2 = isHex(argv[2]);
+
+    // convert arguments to integers (different conversion for hex or decimal)
+    num1 = strtol(argv[1], &ptr1, hexCheckNum1);
+    num2 = strtol(argv[2], &ptr2, hexCheckNum2);
+
+    // check that both numbers are valid integers in hex or decimal
+    if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
+        // display error msg before exiting
+        fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
+                "hexadecimal (0x0) format\n");
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        return;
+    }
+
+    // calculate GCD: if negative, make positive (because it makes sense)
+    ans = calcGCD(num1, num2);
+    if(ans < 0) {
+        ans *= -1;
+    }
+
+    // print output
+    fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
+}
+
+/**
  * Calculates the greatest common divisor of two numbers using Euclid's GCD Algorithm
  * @param long a -the first number
  * @param long b -the second number
@@ -202,14 +243,16 @@ int isHex(char* strNum) {
     return 10;
 }
 
+// ========================================= LCM =========================================
+
 /**
- * Built-in/Internal Command: Displays the greatest common denominator of two (decimal or hexadecimal) numbers
+ * Built-in/Internal Command: Displays the lowest common multiple of two (decimal or hexadecimal) numbers
  * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
  * @param int argc -the number of arguments
  * @param char* argv[] -used for the array of arguments
  * @return no return because it just runs its program and prints the result
  */
-long gcd(int argc, char* argv[]) {
+void lcm(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
@@ -238,12 +281,19 @@ long gcd(int argc, char* argv[]) {
         return;
     }
 
-    // calculate GCD
-    return ans = calcGCD(num1, num2);
+    // calculate LCM
+    ans = calcLCM(num1, num2);
+
+    // print output
+    fprintf(stdout, "LCM(%s, %s) = %ld\n", argv[1], argv[2], ans);
 }
 
-// ========================================= LCM =========================================
-
-void lcm(int argc, char* arv[]) {
-    return;
+/**
+ * Calculates the lowest common multiple of two numbers using Euclid's GCD Algorithm
+ * @param long a -the first number
+ * @param long b -the second number
+ * @return the lowest common multiple of the two numbers a and b
+ */
+long calcLCM(long a, long b) {
+    return a * b / calcGCD(a, b);
 }
