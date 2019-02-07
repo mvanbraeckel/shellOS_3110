@@ -37,22 +37,12 @@ int main(int argc, char* argv[]) {
     }
 
     // convert arguments to integers (different conversion for hex or decimal)
-    if(checkNum1 == 1) {
-        //num1 = atoi((argv+2)[1]);
-        // convert to hex
-        num1 = strtol(argv[1], NULL, 16);
-    } else {
-        //num1 = (long)atoi(argv[1]);
-        num1 = strtol(argv[1], NULL, 10);
+    if(checkNum1) {
+        num1 = strtol(argv[1], NULL, checkNum1);
     }
 
-    if(checkNum2 == 1) {
-        //num2 = atoi((argv+2)[2]);
-        // conver to hex
-        num2 = strtol(argv[2], NULL, 16);
-    } else {
-        //num2 = (long)atoi(argv[2]);
-        num2 = strtol(argv[2], NULL, 10);
+    if(checkNum2) {
+        num2 = strtol(argv[2], NULL, checkNum2);
     }
 
     // calculate GCD
@@ -68,7 +58,7 @@ int main(int argc, char* argv[]) {
 /**
  * Checks if a number in string form is a valid decimal or hexadecimal (first 2 chars are "0x") number
  * @param char* strNum -the inputted number to bec validated
- * @return 0 if it's not valid, 1 if it's a valid hexadecimal number, 2 for valid decimal number
+ * @return 0 if it's not valid, 16 if it's a valid hexadecimal number, 10 for valid decimal number
  */
 int isValid(char* strNum) {
     // declare variables
@@ -95,8 +85,8 @@ int isValid(char* strNum) {
     } // end for loop
 
     if(xFound) {
-        return 1; // valid hex
+        return 16; // valid hex
     } else {
-        return 2; // valid decimal
+        return 10; // valid decimal
     }
 }
