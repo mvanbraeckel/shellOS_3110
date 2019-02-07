@@ -16,9 +16,18 @@
 const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 extern char **getln();
 
+void signalHandler(int signalPassed)
+{
+    wait(NULL);
+    // if system call interrupted it, reset 
+    if(errno == EINTR) {
+        errno = 0;
+    }
+}
+
 int main() {
     // declare variables
-    int i, j, c, argc;
+    int i, j, c, argc, hasAmp;
     char **args;
     struct passwd *password;
     char hostname[_SC_HOST_NAME_MAX+1];
@@ -60,13 +69,25 @@ int main() {
         // use lex to parse shell prompt input
         args = getln();
 
+        argc = 0;
+        // find number of arguments
+        for(argc = 0; args[argc] != NULL; argc++);
+        argc--;
+
+        // check for ampersand at the end
+        hasAmp = 0;
+        if(strcmp(args[argc], "&") == 0) {
+            hasAmp = 1;
+        }
+
+        // check for command
         if(args[0] != NULL) {
             if(strcmp(args[0], "exit") == 0) {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
                 // count and print number of arguments (other than "args")
-                argc = 0;
+                /*argc = 0;
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
                 // print all other arguments separated by ", "
@@ -86,7 +107,7 @@ int main() {
                         fprintf(stdout, ", %s", args[j]);
                     }
                 }
-                fprintf(stdout, "\n");
+                fprintf(stdout, "\n");*/
                 // TODO - "text, text" needs to be treated as 1 instead of 2
             }
         }
@@ -99,6 +120,7 @@ int main() {
         /* If necessary locate executable using mypath array */
 
         // Launch executable
+        sigset(SIGCHLD, SIG_IGN);
         pid = fork();
         if(pid < 0) {
             fprintf(stderr, "Fork failed\n");
@@ -116,7 +138,12 @@ int main() {
             }
                  
         } else { // parent process (waits for child to finish)
-            wait(NULL); // check error TODO
+            if(hasAmp) {
+                sigset(SIGCHLD, *signalHandler);
+            } else {
+                wait(NULL); // check error TODO
+            }
+            
             //printf("child exited/completed\n");
         } // end of if
 
