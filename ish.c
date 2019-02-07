@@ -173,7 +173,6 @@ void signalHandler(int signalPassed) {
  * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
  * @param int argc -the number of arguments
  * @param char* argv[] -used for the array of arguments
- * @return no return because it just runs its program and prints the result
  */
 void gcd(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
@@ -198,8 +197,7 @@ void gcd(int argc, char* argv[]) {
     // check that both numbers are valid integers in hex or decimal
     if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
         // display error msg before exiting
-        fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
-                "hexadecimal (0x0) format\n");
+        fprintf(stderr, "Error: arguments must be valid integers in decimal or hexadecimal (0x0) format\n");
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
         return;
     }
@@ -231,7 +229,7 @@ long calcGCD(long a, long b) {
 /**
  * Checks if a number is in hexadecimal form
  * @param char* strNum -the number to be checked
- * @return 16 if it's a hex number, 10 otherwise
+ * @return 16 if it's a hexadecimal number, 10 otherwise (default decimal)
  */
 int isHex(char* strNum) {
     // is of hex form if the 'x' is in the right spot
@@ -246,6 +244,40 @@ int isHex(char* strNum) {
     }
     return 10;
 }
+// ======================================== ARGS =========================================
+
+/**
+ * Built-in/Internal Command: Counts the total number of arguments passed to "args" command
+ * --> Prints the arguments delimited by ", "
+ * @param int argc -the number of arguments
+ * @param char* argv[] -used for the array of arguments
+ */
+void listargs(int argc, char* argv[]) {
+    // check that proper #of arguments were inputted
+    if(argc == 1) {
+        fprintf(stderr, "Usage: %s [arguments]+\n", argv[0]);
+        return;
+    }
+    // count and print number of arguments (other than "args")
+    fprintf(stdout, "argc = %d, args = ", argc-1);
+
+    // print all other arguments separated by ", "
+    for(int i = 1; argv[i] != NULL; i++) {
+        // replace '\n' w/ '\0' if it's there
+        /*for(int j = 0; argv[i][j] != '\n' && argv[i][j] != '\0'; j++) {
+            if(argv[i][j] == '\n') {
+                argv[i][j] = '\0';
+            }
+        }*/
+        // print the argument
+        if(i == 1) {
+            fprintf(stdout, "%s", argv[i]);
+        } else {
+            fprintf(stdout, ", %s", argv[i]);
+        }
+    }
+    fprintf(stdout, "\n");
+}
 
 // ========================================= LCM =========================================
 
@@ -254,7 +286,6 @@ int isHex(char* strNum) {
  * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
  * @param int argc -the number of arguments
  * @param char* argv[] -used for the array of arguments
- * @return no return because it just runs its program and prints the result
  */
 void lcm(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
@@ -301,3 +332,5 @@ void lcm(int argc, char* argv[]) {
 long calcLCM(long a, long b) {
     return a * b / calcGCD(a, b);
 }
+
+// =======================================================================================
