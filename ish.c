@@ -131,14 +131,12 @@ int main() {
         } else if(pid == 0) { // child process
             if(strcmp(args[0], "baa") == 0) {
                 if(execvp("./gcd", args) == -1) { // need to check errno :TODO
-                    perror("bad input\n");
-                    fprintf(stderr, "bad input2\n");
+                    perror("bad input");
                     exit(EXIT_FAILURE);
                 }
             } else{
                 if(execvp(args[0], args) == -1) { // need to check errno :TODO
-                    perror("bad input\n");
-                    fprintf(stderr, "bad input2\n");
+                    perror("bad input");
                     exit(EXIT_FAILURE);
                 }
             }
