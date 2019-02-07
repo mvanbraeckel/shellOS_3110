@@ -105,7 +105,7 @@ int main() {
             exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
-            if(args[0] == "gcd") {
+            if(strcmp(args[0], "./gcd") == 0) {
                 if(execvp("gcd", args) == -1) { // need to check errno :TODO
                     exit(EXIT_FAILURE);
                 }
