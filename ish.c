@@ -110,13 +110,14 @@ int main() {
         pid_t pid = fork();
 
         if(pid < 0) {
-            fprintf(stderr, "Fork failed\n");
-            exit(EXIT_FAILURE);
+            fprintf(stderr, "%s: %s: ", myShellName, args[0]);
+                perror("fork failed:");
+                exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
             if(execvp(args[0], args) == -1) { // need to check errno :TODO
                 fprintf(stderr, "%s: %s: ", myShellName, args[0]);
-                perror("");
+                perror("a");
                 exit(EXIT_FAILURE);
             }
                  
