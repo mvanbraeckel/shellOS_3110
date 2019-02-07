@@ -67,10 +67,11 @@ int main() {
         }*/
 
         // display prompt - '$' for user, '#' for superuser or root
+        fprintf(stdout, "[%s@%s]", password->pw_name, hostname);
         if(getuid() == 0) {
-            fprintf(stdout, "[%s@%s]# ", password->pw_name, hostname);
+            fprintf(stdout, "# ");
         } else {
-            fprintf(stdout, "[%s@%s]$ ", password->pw_name, hostname);
+            fprintf(stdout, "$ ");
         }
         //free(cwd);
 
