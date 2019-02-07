@@ -90,7 +90,7 @@ int main() {
 
             } else if(strcmp(args[0], "args") == 0) {
                 // count and print number of arguments (other than "args")
-                /*argc = 0;
+                argc = 0;
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
                 // print all other arguments separated by ", "
@@ -110,7 +110,7 @@ int main() {
                         fprintf(stdout, ", %s", args[j]);
                     }
                 }
-                fprintf(stdout, "\n");*/
+                fprintf(stdout, "\n");
                 // TODO - "text, text" needs to be treated as 1 instead of 2
             }
         }
