@@ -142,7 +142,7 @@ int main() {
                  
         } else { // parent process (waits for child to finish)
             if(hasAmp) {
-                sigset(SIGCHLD, signalHandler);
+                sigset(SIGCHLD, *signalHandler);
             } else {
                 wait(NULL); // check error TODO
             }
