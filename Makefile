@@ -1,16 +1,22 @@
+CC = gcc
 CFLAGS = -g -Wall
 
-all: ish git
+all: gcd ish git
 
 ish: ish.o lex.yy.o
-	gcc -o ish ish.o lex.yy.o -lfl  
+	$(CC) -o ish ish.o lex.yy.o -lfl  
 ish.o: ish.c
-	gcc $(CFLAGS) -c ish.c
+	$(CC) $(CFLAGS) -c ish.c
 
 lex.yy.o: lex.yy.c
-	gcc $(CFLAGS) -c lex.yy.c
+	$(CC) $(CFLAGS) -c lex.yy.c
 lex.yy.c: lex.c
 	flex lex.c
+
+gcd: gcd.o
+	$(CC) gcd.o -o gcd
+gcd.o: gcd.c
+	$(CC) $(CFLAGS) -c gcd.c -o gcd.o
 
 git: *.c Makefile
 	git add Makefile

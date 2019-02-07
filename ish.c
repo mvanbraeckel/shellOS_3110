@@ -1,6 +1,7 @@
 /**
  * Mitchell Van Braeckel (mvanbrae@uoguelph.ca) 100297
  * 06/02/2019
+ * CIS*3110: Operating Systems A1 - simple shell
  */
 #include <stdio.h>
 #include <stdlib.h>
