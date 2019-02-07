@@ -10,12 +10,14 @@
 #include <string.h>
 #include <ctype.h>
 
+// inlcudes
+long calcGCD(long a, long b);
 int isValid(char* strNum);
 
 int main(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
-        fprintf(stderr, "Usage: %s <integer number1> <integer number 2>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <positive integer number 1> <positive integer number 2>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -37,12 +39,8 @@ int main(int argc, char* argv[]) {
     }
 
     // convert arguments to integers (different conversion for hex or decimal)
-    if(checkNum1) {
-        num1 = strtol(argv[1], NULL, checkNum1);
-    }
-    if(checkNum2) {
-        num2 = strtol(argv[2], NULL, checkNum2);
-    }
+    num1 = strtol(argv[1], NULL, checkNum1);
+    num2 = strtol(argv[2], NULL, checkNum2);
 
     // calculate GCD
 
@@ -52,6 +50,20 @@ int main(int argc, char* argv[]) {
     fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
 
     return 0;
+}
+
+/**
+ * Calculates the greatest common divisor of two numbers using Euclid's GCD Algorithm
+ * @param long a -the first number
+ * @param long b -the second number
+ * @return the greatest common divisor of the two numbers a and b
+ */
+long calcGCD(long a, long b) {
+    if(b == 0) {
+        return a;
+    } else {
+        return calcGCD(b, a % b);
+    }
 }
 
 /**
