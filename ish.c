@@ -134,7 +134,7 @@ int main() {
 
         } else if(pid == 0) { // child process
             if(execvp(args[0], args) == -1) { // need to check errno :TODO
-                fprintf(stderr, "%s: %s:", myShellName, args[0]);
+                fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                 perror("");
                 exit(EXIT_FAILURE);
             }
