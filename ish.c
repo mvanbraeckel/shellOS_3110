@@ -132,6 +132,7 @@ int main() {
             if(strcmp(args[0], "baa") == 0) {
                 if(execvp("./gcd", args) == -1) { // need to check errno :TODO
                     perror("bad input\n");
+                    fprintf(stderr, "bad input2\n");
                     exit(EXIT_FAILURE);
                 }
             } else{
