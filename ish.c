@@ -74,7 +74,7 @@ int main() {
             hasAmp = 1;
         }
 
-        // check for command
+        // check for internal/built-in command
         if(args[0] != NULL) {
             if(argc == 1 && strcmp(args[0], "exit") == 0) {
                 exit(EXIT_SUCCESS);
@@ -123,6 +123,7 @@ int main() {
         // Launch executable
         sigset(SIGCHLD, SIG_IGN);
         pid_t pid = fork();
+
         if(pid < 0) {
             fprintf(stderr, "Fork failed\n");
             exit(EXIT_FAILURE);
@@ -239,3 +240,5 @@ void gcd(int argc, char* argv[]) {
     // print output
     fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
 }
+
+// ========================================= LCM =========================================
