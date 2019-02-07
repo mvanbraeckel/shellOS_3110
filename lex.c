@@ -4,7 +4,7 @@ char *_args[100] ;
 int _argcount = 0;
 %}
 
-QUOTE (["])(\\?.)*?\1
+QUOTE \"(.*?)\"g
 WORD	[a-zA-Z0-9\/\.-]+
 SPECIAL	[()><|&;*]
 
