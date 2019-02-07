@@ -80,6 +80,11 @@ int main() {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
+                // check that proper #of arguments were inputted
+                if(argc == 1) {
+                    fprintf(stderr, "Usage: %s [arguments]+\n", args[0]);
+                    continue;
+                }
                 // count and print number of arguments (other than "args")
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
