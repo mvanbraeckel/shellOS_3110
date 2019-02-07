@@ -122,16 +122,18 @@ int main() {
 
         // Launch executable
         pid = fork();
-        if (pid == 0) {
-            // execute child command
-            
+        if(pid < 0) {
+            fprintf(stderr, "Fork failed\n");
+            exit(EXIT_FAILURE);
+
+        } else if(pid == 0) { // child process
             if(execvp(args[0], args) == -1) { // need to check errno :TODO
                 exit(EXIT_FAILURE);
             }
                  
-        } else { // parent
-            wait(NULL);
-            //printf("child exited\n");
+        } else { // parent process (waits for child to finish)
+            wait(NULL); // check error TODO
+            //printf("child exited/completed\n");
         } // end of if
 
     } // end infinite while loop
