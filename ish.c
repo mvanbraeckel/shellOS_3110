@@ -19,6 +19,7 @@ void signalHandler(int signalPassed);
 void gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
 int isHex(char* strNum);
+void listargs(int argc, char* argv[]);
 void lcm(int argc, char* arv[]);
 long calcLCM(long a, long b);
 
