@@ -119,10 +119,13 @@ int main() {
         /* If necessary locate executable using mypath array */
 
         /* Launch executable */
-        int pid = fork();
-        if (pid == 0) {
+        if (fork() == 0) {
             // execute command
-            execvp(args[0], args);
+            
+            if(execvp(args[0], args) == -1) { // need to check errno TODO
+                exit(EXIT_FAILURE);
+            }
+                 
         } else {
             wait(NULL);
             //printf("child exited\n");
