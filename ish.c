@@ -137,6 +137,8 @@ int main() {
                 }
             } else{
                 if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                    perror("bad input\n");
+                    fprintf(stderr, "bad input2\n");
                     exit(EXIT_FAILURE);
                 }
             }
