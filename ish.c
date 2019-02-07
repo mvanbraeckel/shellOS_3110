@@ -16,9 +16,10 @@
 // ================================= FUNCTION PROTOTYPES =================================
 void signalHandler(int signalPassed);
 
-void gcd(int argc, char* argv[]);
+long gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
 int isHex(char* strNum);
+void lcm(int argc, char* arv[]);
 
 // =======================================================================================
 
@@ -108,7 +109,13 @@ int main() {
                 continue; //skip to next loop
 
             } else if(strcmp(args[0], "gcd") == 0) {
-                gcd(argc, args);
+                // calculate the greatest common denominator
+                long result = gcd(argc, args);
+                if(result < 0) {
+                    result *= -1;
+                }
+                // print output
+                fprintf(stdout, "GCD(%s, %s) = %ld\n", args[1], args[2], result);
                 continue; //skip to next loop
             }
         }
@@ -202,7 +209,7 @@ int isHex(char* strNum) {
  * @param char* argv[] -used for the array of arguments
  * @return no return because it just runs its program and prints the result
  */
-void gcd(int argc, char* argv[]) {
+long gcd(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
@@ -231,14 +238,12 @@ void gcd(int argc, char* argv[]) {
         return;
     }
 
-    // calculate GCD: if negative, make positive (because it makes sense)
-    ans = calcGCD(num1, num2);
-    if(ans < 0) {
-        ans *= -1;
-    }
-
-    // print output
-    fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
+    // calculate GCD
+    return ans = calcGCD(num1, num2);
 }
 
 // ========================================= LCM =========================================
+
+void lcm(int argc, char* arv[]) {
+    return;
+}
