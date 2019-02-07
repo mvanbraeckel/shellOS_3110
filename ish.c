@@ -146,8 +146,6 @@ int main() {
             } else {
                 waitpid(pid, NULL, 0); // check error TODO
             }
-            
-            //printf("child exited/completed\n");
         } // end of if
 
     } // end infinite while loop
