@@ -40,7 +40,6 @@ int main(int argc, char* argv[]) {
     if(checkNum1) {
         num1 = strtol(argv[1], NULL, checkNum1);
     }
-
     if(checkNum2) {
         num2 = strtol(argv[2], NULL, checkNum2);
     }
