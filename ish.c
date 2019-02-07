@@ -13,12 +13,14 @@
 #include <limits.h>
 #include <string.h>
 
-// function prototypes
+// ================================= FUNCTION PROTOTYPES =================================
 void signalHandler(int signalPassed);
 
 void gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
 int isHex(char* strNum);
+
+// =======================================================================================
 
 extern char **getln();
 //const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
