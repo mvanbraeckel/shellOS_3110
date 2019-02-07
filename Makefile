@@ -21,7 +21,7 @@ gcd.o: gcd.c
 git: *.c Makefile
 	git add Makefile
 	git add *.c
-	git commit -m "automatic makefile backup"
+	git commit -m "automatic backup via makefile"
 	git remote rm origin
 	git config credential.helper store
 	git config --global credential.helper 'cache --timeout 3600'
