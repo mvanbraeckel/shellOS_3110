@@ -43,12 +43,13 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // calculate GCD
+    // calculate GCD: if negative, make positive
     ans = calcGCD(num1, num2);
+    if(ans < 0) {
+        ans *= -1;
+    }
 
     // print output
-    fprintf(stdout, "%s = %ld\n", argv[1], num1);
-    fprintf(stdout, "%s = %ld\n", argv[2], num2);
     fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
 
     return 0;
