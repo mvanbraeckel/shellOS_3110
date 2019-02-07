@@ -20,8 +20,9 @@ void gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
 int isHex(char* strNum);
 
-const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 extern char **getln();
+const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
+const char myShellName[] = "vbshell";
 
 int main() {
     // declare variables
@@ -132,16 +133,10 @@ int main() {
             exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
-            if(strcmp(args[0], "baa") == 0) {
-                if(execvp("./gcd", args) == -1) { // need to check errno :TODO
-                    perror("bad input");
-                    exit(EXIT_FAILURE);
-                }
-            } else{
-                if(execvp(args[0], args) == -1) { // need to check errno :TODO
-                    perror("bad input");
-                    exit(EXIT_FAILURE);
-                }
+            if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                fprintf("%s: %s:", myShellName, args[0]);
+                perror("");
+                exit(EXIT_FAILURE);
             }
                  
         } else { // parent process (waits for child to finish)
