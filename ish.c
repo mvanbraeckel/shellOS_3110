@@ -112,6 +112,7 @@ int main() {
                 }
                 fprintf(stdout, "\n");
                 // TODO - "text, text" needs to be treated as 1 instead of 2
+                continue; //skip to next loop
             }
         }
 
