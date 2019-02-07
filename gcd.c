@@ -21,7 +21,8 @@ int main(int argc, char* argv[]) {
 
     // declare variables
     int checkNum1, checkNum2;
-    long num1, num2;
+    long num1 = 0;
+    long num2 = 0;;
     long ans = 0;
 
     // check that both numbers are valid integers in hex or decimal
@@ -55,6 +56,8 @@ int main(int argc, char* argv[]) {
     // calculate GCD
 
     // print output
+    fprintf(stdout, "%s = %ld\n", argv[1], num1);
+    fprintf(stdout, "%s = %ld\n", argv[2], num2);
     fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
 
     return 0;
