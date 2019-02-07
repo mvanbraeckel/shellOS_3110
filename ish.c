@@ -70,6 +70,7 @@ int main() {
         argc = 0;
         // find number of arguments
         for(argc = 0; args[argc] != NULL; argc++);
+        printf("\t#args = %d\n", argc);
         
         if(argc <= 0) {
             continue; //skip because no arguments
