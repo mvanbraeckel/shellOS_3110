@@ -33,13 +33,17 @@ const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 extern char **getln();
 
 int main() {
-    int i;
+    // declare variables
+    int i, j, c, argc;
     char **args;
+    struct passwd *password;
+    char hostname[_SC_HOST_NAME_MAX+1];
+    pid_t pid;
     
     // infinitely loop until "exit" is entered
     while (1) {
         // get user ID in text format from password struct
-        struct passwd *password = getpwuid(getuid()); // set errno to 0 before call, then check after
+        password = getpwuid(getuid()); // set errno to 0 before call, then check after
         if(password == NULL) {
 
             fprintf(stderr, "password is null\n");
@@ -47,7 +51,6 @@ int main() {
             exit(EXIT_FAILURE); // ??
         } 
         // get host name
-        char hostname[_SC_HOST_NAME_MAX+1];
         if(gethostname(hostname, sizeof(hostname)) == -1) { // need to check errno for this too
             
             fprintf(stderr, "gethostname returned an error\n");
@@ -80,14 +83,13 @@ int main() {
 
             } else if(strcmp(args[0], "args") == 0) {
                 // count and print number of arguments (other than "args")
-                int argc = 0;
+                argc = 0;
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
                 // print all other arguments separated by ", "
-                int j;
                 for(j = 1; args[j] != NULL; j++) {
                     // remove '\n'
-                    int c = 0;
+                    c = 0;
                     while(args[j][c] != '\n' && args[j][c] != '\0') {
                         if(args[j][c] == '\n') {
                             args[j][c] = '\0';
@@ -118,15 +120,16 @@ int main() {
 
         /* If necessary locate executable using mypath array */
 
-        /* Launch executable */
-        if (fork() == 0) {
-            // execute command
+        // Launch executable
+        pid = fork();
+        if (pid == 0) {
+            // execute child command
             
             if(execvp(args[0], args) == -1) { // need to check errno :TODO
                 exit(EXIT_FAILURE);
             }
                  
-        } else {
+        } else { // parent
             wait(NULL);
             //printf("child exited\n");
         } // end of if
