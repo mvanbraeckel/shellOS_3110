@@ -31,8 +31,8 @@ int main(int argc, char* argv[]) {
     hexCheckNum2 = isHex(argv[2]);
 
     // convert arguments to integers (different conversion for hex or decimal)
-    num1 = strtol(argv[1], ptr1, hexCheckNum1);
-    num2 = strtol(argv[2], ptr2, hexCheckNum2);
+    num1 = strtol(argv[1], &ptr1, hexCheckNum1);
+    num2 = strtol(argv[2], &ptr2, hexCheckNum2);
 
     // check that both numbers are valid integers in hex or decimal
     if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
