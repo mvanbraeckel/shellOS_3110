@@ -49,9 +49,9 @@ int main() {
 
         // display prompt - '$' for user, '#' for superuser or root
         if(getuid() == 0) {
-            prompt = "#";
+            prompt = '#';
         } else {
-            prompt = "$";
+            prompt = '$';
         }
         fprintf(stdout, "[%s@%s]%c ", password->pw_name, hostname, prompt);
         //free(cwd);
