@@ -21,7 +21,7 @@ long calcGCD(long a, long b);
 int isHex(char* strNum);
 
 extern char **getln();
-const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
+//const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 const char myShellName[] = "vbshell";
 
 int main() {
@@ -83,15 +83,14 @@ int main() {
                 // count and print number of arguments (other than "args")
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
+
                 // print all other arguments separated by ", "
                 for(int j = 1; args[j] != NULL; j++) {
-                    // remove '\n'
-                    int c = 0;
-                    while(args[j][c] != '\n' && args[j][c] != '\0') {
+                    // replace '\n' w/ '\0' if it's there
+                    for(int c = 0; args[j][c] != '\n' && args[j][c] != '\0'; c++) {
                         if(args[j][c] == '\n') {
                             args[j][c] = '\0';
                         }
-                        c++;
                     }
                     // print the argument
                     if(j == 1) {
@@ -101,8 +100,8 @@ int main() {
                     }
                 }
                 fprintf(stdout, "\n");
-                // TODO - "text, text" needs to be treated as 1 instead of 2
                 continue; //skip to next loop
+
             } else if(strcmp(args[0], "gcd") == 0) {
                 gcd(argc, args);
                 continue; //skip to next loop
@@ -136,8 +135,8 @@ int main() {
             } else {
                 wait(NULL); // check error TODO
             }
-            
             //printf("child exited/completed\n");
+            
         } // end of if
 
     } // end infinite while loop
@@ -154,20 +153,6 @@ void signalHandler(int signalPassed) {
         errno = 0;
     }
 }
-
-/**
- * Flushes all leftover data in the stream
- * @param char* input - the string that was just read from stdin
- */
-/*void flush_input(char* input) {
-    // if the '\n' is NOT found in the word itself, flush the stream
-    if(strchr(input, '\n') == NULL) {
-        while(getchar() != '\n');
-        input[strlen(input)] = '\0';
-    } else {
-        input[strlen(input)-1] = '\0';
-    }
-}*/
 
 // ========================================= GCD =========================================
 
