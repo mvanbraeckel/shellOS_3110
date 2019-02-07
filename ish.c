@@ -123,7 +123,7 @@ int main() {
         /* If necessary locate executable using mypath array */
 
         // Launch executable
-        sigset(SIGCHLD, SIG_IGN);
+        signal(SIGCHLD, SIG_IGN);
         pid = fork();
         if(pid < 0) {
             fprintf(stderr, "Fork failed\n");
