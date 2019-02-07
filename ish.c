@@ -112,6 +112,10 @@ int main() {
             } else if(strcmp(args[0], "gcd") == 0) {
                 gcd(argc, args);
                 continue; //skip to next loop
+
+            } else if(strcmp(args[0], "lcm") == 0) {
+                lcm(argc, args);
+                continue; //skip to next loop
             }
         }
 
