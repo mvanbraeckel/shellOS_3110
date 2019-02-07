@@ -11,7 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 
-// inlcudes
+// includes
 long calcGCD(long a, long b);
 int isHex(char* strNum);
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // calculate GCD: if negative, make positive
+    // calculate GCD: if negative, make positive (because it makes sense)
     ans = calcGCD(num1, num2);
     if(ans < 0) {
         ans *= -1;
@@ -70,6 +70,26 @@ long calcGCD(long a, long b) {
 }
 
 /**
+ * Checks if a number is in hexadecimal form
+ * @param char* strNum -the number to be checked
+ * @return 16 if it's a hex number, 10 otherwise
+ */
+int isHex(char* strNum) {
+    // is of hex form if the 'x' is in the right spot
+    // account for negatives
+    int len = strlen(strNum);
+    if(len > 0 && strNum[0] == '-') {
+        if(len > 2 && strNum[2] == 'x') {
+            return 16; // negative hex
+        }
+    } else if(len > 1 && strNum[1] == 'x') {
+        return 16; // hex
+    }
+    return 10;
+}
+
+/**
+ * OLD: used this before I found strtol()
  * Checks if a number in string form is a valid decimal or hexadecimal (first 2 chars are "0x") number
  * @param char* strNum -the inputted number to bec validated
  * @return 0 if it's not valid, 16 if it's a valid hexadecimal number, 10 for valid decimal number
@@ -104,22 +124,3 @@ long calcGCD(long a, long b) {
         return 10; // valid decimal
     }
 }*/
-
-/**
- * Checks if a number is in hexadecimal form
- * @param char* strNum -the number to be checked
- * @return 16 if it's a hex number, 10 otherwise
- */
-int isHex(char* strNum) {
-    // is of hex form if the 'x' is in the right spot
-    // account for negatives
-    int len = strlen(strNum);
-    if(len > 0 && strNum[0] == '-') {
-        if(len > 2 && strNum[2] == 'x') {
-            return 16; // negative hex
-        }
-    } else if(len > 1 && strNum[1] == 'x') {
-        return 16; // hex
-    }
-    return 10;
-}
