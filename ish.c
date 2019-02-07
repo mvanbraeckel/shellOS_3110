@@ -32,6 +32,7 @@ const char myShellName[] = "vbshell";
 int main() {
     // declare variables
     char hostname[_SC_HOST_NAME_MAX+1];
+    int hasAmp, writeOut, readIn;
     
     // infinitely loop until "exit" is entered
     while(1) {
@@ -58,34 +59,24 @@ int main() {
         }*/
 
         // display prompt - '$' for user, '#' for superuser or root
-        if(getuid() == 0) {
-            prompt = '#';
-        }
+        if(getuid() == 0) prompt = '#';
         fprintf(stdout, "[%s@%s]%c ", password->pw_name, hostname, prompt);
         //free(cwd);
 
         // use lex to parse shell prompt input, then count #of arguments
         char **args = getln();
-
         int argc = 0;
-        while( args[argc] != NULL) argc++;
+        while(args[argc] != NULL) argc++;
         if(argc <= 0) continue; //skip because no arguments
 
-        printf("\t#args = %d\n", argc);
-        int hasAmp = 0;
-        int writeOut = 0;
-        int readIn = 0;
-        // check for ampersand at the end
-        if(strcmp(args[argc-1], "&") == 0) {
-            hasAmp = 1;
-        }
-        // check for file redirect
+        hasAmp = writeOut = readIn = 0; //reset flags
+        // check for ampersand at the end, set flag
+        if(strcmp(args[argc-1], "&") == 0) hasAmp = 1;
+
+        // check for file redirect, set flag
         if(argc >= 3) {
-            if(strcmp(args[argc-2], ">") == 0) {
-                writeOut = 1;
-            } else if(strcmp(args[argc-2], "<") == 0) {
-                readIn = 1;
-            }
+            if(strcmp(args[argc-2], ">") == 0) writeOut = 1;
+            else if(strcmp(args[argc-2], "<") == 0) readIn = 1;
         }
 
         // check for internal/built-in command
