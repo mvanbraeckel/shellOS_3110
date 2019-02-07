@@ -111,6 +111,9 @@ int main() {
                 fprintf(stdout, "\n");
                 // TODO - "text, text" needs to be treated as 1 instead of 2
                 continue; //skip to next loop
+            } else if(strcmp(args[0], "gcd") == 0) {
+                gcd(argc, args);
+                continue; //skip to next loop
             }
         }
 
