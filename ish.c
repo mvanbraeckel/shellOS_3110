@@ -136,7 +136,7 @@ int main() {
                 wait(NULL); // check error TODO
             }
             //printf("child exited/completed\n");
-            
+
         } // end of if
 
     } // end infinite while loop
@@ -208,6 +208,7 @@ void gcd(int argc, char* argv[]) {
     long num1, num2, ans;
     char *ptr1, *ptr2;
 
+    // check is its a hex number, set it to 16, otherwise 10 (decimal by default)
     hexCheckNum1 = isHex(argv[1]);
     hexCheckNum2 = isHex(argv[2]);
 
