@@ -26,17 +26,13 @@ const char myShellName[] = "vbshell";
 
 int main() {
     // declare variables
-    int i, j, c, argc, hasAmp;
-    char **args;
-    struct passwd *password;
     char hostname[_SC_HOST_NAME_MAX+1];
     char prompt = '$';
-    pid_t pid;
     
     // infinitely loop until "exit" is entered
     while (1) {
         // get user ID in text format from password struct
-        password = getpwuid(getuid()); // set errno to 0 before call, then check after
+        struct passwd *password = getpwuid(getuid()); // set errno to 0 before call, then check after
         if(password == NULL) {
             fprintf(stderr, "password is null\n");
             exit(EXIT_FAILURE);
@@ -66,9 +62,9 @@ int main() {
         //free(cwd);
 
         // use lex to parse shell prompt input
-        args = getln();
+        char **args = getln();
 
-        argc = 0;
+        int argc = 0;
         // find number of arguments
         for(argc = 0; args[argc] != NULL; argc++);
         
@@ -77,7 +73,7 @@ int main() {
         }
 
         // check for ampersand at the end
-        hasAmp = 0;
+        int hasAmp = 0;
         if(strcmp(args[argc-1], "&") == 0) {
             hasAmp = 1;
         }
@@ -93,9 +89,9 @@ int main() {
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
                 // print all other arguments separated by ", "
-                for(j = 1; args[j] != NULL; j++) {
+                for(int j = 1; args[j] != NULL; j++) {
                     // remove '\n'
-                    c = 0;
+                    int c = 0;
                     while(args[j][c] != '\n' && args[j][c] != '\0') {
                         if(args[j][c] == '\n') {
                             args[j][c] = '\0';
@@ -119,7 +115,7 @@ int main() {
         }
 
         // print all the arguments from lex
-        for(i = 0; args[i] != NULL; i++) {
+        for(int i = 0; args[i] != NULL; i++) {
             fprintf(stdout, "arg[%d]: %s\n", i, args[i]);
         }
         
@@ -127,7 +123,7 @@ int main() {
 
         // Launch executable
         sigset(SIGCHLD, SIG_IGN);
-        pid = fork();
+        pid_t pid = fork();
         if(pid < 0) {
             fprintf(stderr, "Fork failed\n");
             exit(EXIT_FAILURE);
@@ -154,6 +150,7 @@ int main() {
     return 0;
 }
 
+// ======================================= HELPERS =======================================
 
 void signalHandler(int signalPassed) {
     wait(NULL);
@@ -176,6 +173,8 @@ void signalHandler(int signalPassed) {
         input[strlen(input)-1] = '\0';
     }
 }*/
+
+// ========================================= GCD =========================================
 
 /**
  * Calculates the greatest common divisor of two numbers using Euclid's GCD Algorithm
