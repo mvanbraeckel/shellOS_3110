@@ -30,7 +30,7 @@ int main() {
     char prompt = '$';
     
     // infinitely loop until "exit" is entered
-    while (1) {
+    while(1) {
         // get user ID in text format from password struct
         struct passwd *password = getpwuid(getuid()); // set errno to 0 before call, then check after
         if(password == NULL) {
@@ -61,16 +61,12 @@ int main() {
         fprintf(stdout, "[%s@%s]%c ", password->pw_name, hostname, prompt);
         //free(cwd);
 
-        // use lex to parse shell prompt input
+        // use lex to parse shell prompt input, then count #of arguments
         char **args = getln();
 
         int argc = 0;
-        // find number of arguments
         for(argc = 0; args[argc] != NULL; argc++);
-        
-        if(argc <= 0) {
-            continue; //skip because no arguments
-        }
+        if(argc <= 0) continue; //skip because no arguments
 
         // check for ampersand at the end
         int hasAmp = 0;
@@ -85,7 +81,6 @@ int main() {
 
             } else if(strcmp(args[0], "args") == 0) {
                 // count and print number of arguments (other than "args")
-                argc = 0;
                 for(argc = 1; args[argc] != NULL; argc++);
                 fprintf(stdout, "argc = %d, args = ", argc-1);
                 // print all other arguments separated by ", "
