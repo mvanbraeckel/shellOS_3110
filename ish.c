@@ -122,7 +122,7 @@ int main() {
         if (fork() == 0) {
             // execute command
             
-            if(execvp(args[0], args) == -1) { // need to check errno TODO
+            if(execvp(args[0], args) == -1) { // need to check errno :TODO
                 exit(EXIT_FAILURE);
             }
                  
