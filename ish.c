@@ -245,6 +245,7 @@ int isHex(char* strNum) {
     }
     return 10;
 }
+
 // ======================================== ARGS =========================================
 
 /**
@@ -254,7 +255,7 @@ int isHex(char* strNum) {
  * @param char* argv[] -used for the array of arguments
  */
 void listargs(int argc, char* argv[]) {
-    // check that proper #of arguments were inputted
+    // check that proper #of arguments were inputted (>1)
     if(argc == 1) {
         fprintf(stderr, "Usage: %s [arguments]+\n", argv[0]);
         return;
@@ -309,11 +310,11 @@ void lcm(int argc, char* argv[]) {
     num2 = strtol(argv[2], &ptr2, hexCheckNum2);
 
     // check that both numbers are valid integers in hex or decimal
-    if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
+    if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0 || argv[1][0] == '-' || argv[2][0] == '-') {
         // display error msg before exiting
         fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
                 "hexadecimal (0x0) format\n");
-        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <positive integer 1> <positive integer 2>\n", argv[0]);
         return;
     }
 
