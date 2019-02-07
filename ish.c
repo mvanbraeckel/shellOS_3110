@@ -210,10 +210,18 @@ int isHex(char* strNum) {
     return 10;
 }
 
+/**
+ * Built-in/Internal Command: Displays the greatest common denominator of two (decimal or hexadecimal) numbers
+ * NOTE: I use longs for calculations even though I say integer, same things tho, just bigger
+ * @param int argc -the number of arguments
+ * @param char* argv[] -used for the array of arguments
+ * @return no return because it just runs its program and prints the result
+ */
 void gcd(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        return;
     }
 
     // declare variables
@@ -234,6 +242,7 @@ void gcd(int argc, char* argv[]) {
         fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
                 "hexadecimal (0x0) format\n");
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        return;
     }
 
     // calculate GCD: if negative, make positive (because it makes sense)
