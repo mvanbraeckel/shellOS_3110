@@ -9,27 +9,10 @@
 #include <sys/wait.h>
 #include <pwd.h>
 #include <errno.h>
-
 #include <limits.h>
-
 #include <string.h>
 
 const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
-
-/**
- * Flushes all leftover data in the stream
- * @param char* input - the string that was just read from stdin
- */
-/*void flush_input(char* input) {
-    // if the '\n' is NOT found in the word itself, flush the stream
-    if(strchr(input, '\n') == NULL) {
-        while(getchar() != '\n');
-        input[strlen(input)] = '\0';
-    } else {
-        input[strlen(input)-1] = '\0';
-    }
-}*/
-
 extern char **getln();
 
 int main() {
@@ -38,6 +21,7 @@ int main() {
     char **args;
     struct passwd *password;
     char hostname[_SC_HOST_NAME_MAX+1];
+    char prompt = '$';
     pid_t pid;
     
     // infinitely loop until "exit" is entered
@@ -45,17 +29,14 @@ int main() {
         // get user ID in text format from password struct
         password = getpwuid(getuid()); // set errno to 0 before call, then check after
         if(password == NULL) {
-
             fprintf(stderr, "password is null\n");
-
-            exit(EXIT_FAILURE); // ??
+            exit(EXIT_FAILURE);
         } 
+
         // get host name
         if(gethostname(hostname, sizeof(hostname)) == -1) { // need to check errno for this too
-            
             fprintf(stderr, "gethostname returned an error\n");
-
-            exit(EXIT_FAILURE); // ??
+            exit(EXIT_FAILURE);
         }
         hostname[_SC_HOST_NAME_MAX] = '\0';
         /*// get current working directory
@@ -63,16 +44,16 @@ int main() {
         cwd = getcwd(0,0);
         if(!cwd) { // check errno for this too
             fprintf(stderr, "getcwd failed: %s\n", strerror(errno));
-            exit(EXIT_FAILURE); // ??
+            exit(EXIT_FAILURE);
         }*/
 
         // display prompt - '$' for user, '#' for superuser or root
-        fprintf(stdout, "[%s@%s]", password->pw_name, hostname);
         if(getuid() == 0) {
-            fprintf(stdout, "# ");
+            prompt = "#";
         } else {
-            fprintf(stdout, "$ ");
+            prompt = "$";
         }
+        fprintf(stdout, "[%s@%s]%c ", password->pw_name, hostname, prompt);
         //free(cwd);
 
         // use lex to parse shell prompt input
@@ -114,11 +95,6 @@ int main() {
             fprintf(stdout, "arg[%d]: %s\n", i, args[i]);
         }
         
-        /* Parse input */
-        /*while (getln() != NULL) {
-            ...
-        }*/
-
         /* If necessary locate executable using mypath array */
 
         // Launch executable
@@ -141,3 +117,17 @@ int main() {
 
     return 0;
 }
+
+/**
+ * Flushes all leftover data in the stream
+ * @param char* input - the string that was just read from stdin
+ */
+/*void flush_input(char* input) {
+    // if the '\n' is NOT found in the word itself, flush the stream
+    if(strchr(input, '\n') == NULL) {
+        while(getchar() != '\n');
+        input[strlen(input)] = '\0';
+    } else {
+        input[strlen(input)-1] = '\0';
+    }
+}*/
