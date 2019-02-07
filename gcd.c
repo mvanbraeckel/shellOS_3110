@@ -77,7 +77,7 @@ int isValid(char* strNum) {
 
         } else { // not a digit
             // exception for hex #s -> it's first 2 chars are a '0x' sequence
-            if(strNum[i] == 'x' && !xFound && i == 1 && strNum[i-1] == '0') {
+            if(strNum[i] == 'x' && !xFound && i == 1 && strNum[i-1] == '0' && isdigit(strNum[i+1])) {
                 xFound = 1; //set to true
                 // must be followed by at least one digit
                 if(!isdigit(strNum[i+1])) {
