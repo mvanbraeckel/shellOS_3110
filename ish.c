@@ -144,7 +144,7 @@ int main() {
             if(hasAmp) {
                 sigset(SIGCHLD, signalHandler);
             } else {
-                wait(NULL); // check error TODO
+                waitpid(pid, NULL, 0); // check error TODO
             }
             
             //printf("child exited/completed\n");
