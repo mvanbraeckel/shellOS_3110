@@ -72,15 +72,14 @@ int main() {
         argc = 0;
         // find number of arguments
         for(argc = 0; args[argc] != NULL; argc++);
-        argc--;
-
+        
         if(argc <= 0) {
             continue; //skip because no arguments
         }
 
         // check for ampersand at the end
         hasAmp = 0;
-        if(strcmp(args[argc], "&") == 0) {
+        if(strcmp(args[argc-1], "&") == 0) {
             hasAmp = 1;
         }
 
