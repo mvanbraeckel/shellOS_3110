@@ -11,7 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 
-// includes
+// function prototypes
 long calcGCD(long a, long b);
 int isHex(char* strNum);
 

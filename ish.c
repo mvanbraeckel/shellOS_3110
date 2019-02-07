@@ -13,17 +13,15 @@
 #include <limits.h>
 #include <string.h>
 
+// function prototypes
+void signalHandler(int signalPassed);
+
+void gcd(int argc, char* argv[]);
+long calcGCD(long a, long b);
+int isHex(char* strNum);
+
 const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 extern char **getln();
-
-void signalHandler(int signalPassed)
-{
-    wait(NULL);
-    // if system call interrupted it, reset 
-    if(errno == EINTR) {
-        errno = 0;
-    }
-}
 
 int main() {
     // declare variables
@@ -156,6 +154,15 @@ int main() {
     return 0;
 }
 
+
+void signalHandler(int signalPassed) {
+    wait(NULL);
+    // if system call interrupted it, reset 
+    if(errno == EINTR) {
+        errno = 0;
+    }
+}
+
 /**
  * Flushes all leftover data in the stream
  * @param char* input - the string that was just read from stdin
@@ -169,3 +176,72 @@ int main() {
         input[strlen(input)-1] = '\0';
     }
 }*/
+
+/**
+ * Calculates the greatest common divisor of two numbers using Euclid's GCD Algorithm
+ * @param long a -the first number
+ * @param long b -the second number
+ * @return the greatest common divisor of the two numbers a and b
+ */
+long calcGCD(long a, long b) {
+    if(b == 0) {
+        return a;
+    } else {
+        return calcGCD(b, a % b);
+    }
+}
+
+/**
+ * Checks if a number is in hexadecimal form
+ * @param char* strNum -the number to be checked
+ * @return 16 if it's a hex number, 10 otherwise
+ */
+int isHex(char* strNum) {
+    // is of hex form if the 'x' is in the right spot
+    // account for negatives
+    int len = strlen(strNum);
+    if(len > 0 && strNum[0] == '-') {
+        if(len > 2 && strNum[2] == 'x') {
+            return 16; // negative hex
+        }
+    } else if(len > 1 && strNum[1] == 'x') {
+        return 16; // hex
+    }
+    return 10;
+}
+
+void gcd(int argc, char* argv[]) {
+    // check that proper #of arguments were inputted
+    if(argc != 3) {
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+    }
+
+    // declare variables
+    int hexCheckNum1, hexCheckNum2;
+    long num1, num2, ans;
+    char *ptr1, *ptr2;
+
+    hexCheckNum1 = isHex(argv[1]);
+    hexCheckNum2 = isHex(argv[2]);
+
+    // convert arguments to integers (different conversion for hex or decimal)
+    num1 = strtol(argv[1], &ptr1, hexCheckNum1);
+    num2 = strtol(argv[2], &ptr2, hexCheckNum2);
+
+    // check that both numbers are valid integers in hex or decimal
+    if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
+        // display error msg before exiting
+        fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
+                "hexadecimal (0x0) format\n");
+        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+    }
+
+    // calculate GCD: if negative, make positive (because it makes sense)
+    ans = calcGCD(num1, num2);
+    if(ans < 0) {
+        ans *= -1;
+    }
+
+    // print output
+    fprintf(stdout, "GCD(%s, %s) = %ld\n", argv[1], argv[2], ans);
+}
