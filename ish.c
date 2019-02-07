@@ -68,13 +68,24 @@ int main() {
         char **args = getln();
 
         int argc = 0;
-        for(argc = 0; args[argc] != NULL; argc++);
+        while( args[argc] != NULL) argc++;
         if(argc <= 0) continue; //skip because no arguments
 
-        // check for ampersand at the end
+        printf("\t#args = %d\n", argc);
         int hasAmp = 0;
+        int writeOut = 0;
+        int readIn = 0;
+        // check for ampersand at the end
         if(strcmp(args[argc-1], "&") == 0) {
             hasAmp = 1;
+        }
+        // check for file redirect
+        if(argc >= 3) {
+            if(strcmp(args[argc-2], ">") == 0) {
+                writeOut = 1;
+            } else if(strcmp(args[argc-2], "<") == 0) {
+                readIn = 1;
+            }
         }
 
         // check for internal/built-in command
@@ -238,16 +249,8 @@ void listargs(int argc, char* argv[]) {
     }
     // count and print number of arguments (other than "args")
     fprintf(stdout, "argc = %d, args = ", argc-1);
-
     // print all other arguments separated by ", "
     for(int i = 1; argv[i] != NULL; i++) {
-        // replace '\n' w/ '\0' if it's there
-        /*for(int j = 0; argv[i][j] != '\n' && argv[i][j] != '\0'; j++) {
-            if(argv[i][j] == '\n') {
-                argv[i][j] = '\0';
-            }
-        }*/
-        // print the argument
         if(i == 1) {
             fprintf(stdout, "%s", argv[i]);
         } else {
