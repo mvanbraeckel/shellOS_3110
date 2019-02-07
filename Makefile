@@ -4,17 +4,17 @@ CFLAGS = -g -Wall -std=c99
 all: gcd ish git
 
 ish: ish.o lex.yy.o
-	$(CC) -o ish ish.o lex.yy.o -lfl  
+	$(CC) $(CFLAGS) -D_XOPEN_SOURCE=700 ish.o lex.yy.o -o ish -lfl  
 ish.o: ish.c
-	$(CC) $(CFLAGS) -c ish.c
+	$(CC) $(CFLAGS) -D_XOPEN_SOURCE=700 -c ish.c
 
 lex.yy.o: lex.yy.c
-	$(CC) $(CFLAGS) -c lex.yy.c
+	$(CC) $(CFLAGS) -D_XOPEN_SOURCE=700 -c lex.yy.c
 lex.yy.c: lex.c
 	flex lex.c
 
 gcd: gcd.o
-	$(CC) gcd.o -o gcd
+	$(CC) $(CFLAGS) gcd.o -o gcd
 gcd.o: gcd.c
 	$(CC) $(CFLAGS) -c gcd.c -o gcd.o
 
@@ -29,4 +29,4 @@ git: *.c Makefile
 	git push -u origin master
 
 clean:
-	rm -f *.o lex.yy.c ish
+	rm -f *.o lex.yy.c ish gcd
