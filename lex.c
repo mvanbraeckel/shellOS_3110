@@ -5,7 +5,7 @@ int _argcount = 0;
 %}
 
 QUOTE \"[^\"]+\"|'[^']+'
-WORD	[a-zA-Z0-9\/\.-]+
+WORD	["a-zA-Z0-9\/\.-]+
 SPECIAL	[()><|&;*]
 
 %%
