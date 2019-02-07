@@ -29,10 +29,10 @@ const char myShellName[] = "vbshell";
 int main() {
     // declare variables
     char hostname[_SC_HOST_NAME_MAX+1];
-    char prompt = '$';
     
     // infinitely loop until "exit" is entered
     while(1) {
+        char prompt = '$';
         // get user ID in text format from password struct
         struct passwd *password = getpwuid(getuid()); // set errno to 0 before call, then check after
         if(password == NULL) {
@@ -57,8 +57,6 @@ int main() {
         // display prompt - '$' for user, '#' for superuser or root
         if(getuid() == 0) {
             prompt = '#';
-        } else {
-            prompt = '$';
         }
         fprintf(stdout, "[%s@%s]%c ", password->pw_name, hostname, prompt);
         //free(cwd);
