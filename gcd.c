@@ -42,7 +42,8 @@ int main(int argc, char* argv[]) {
         // convert to hex
         num1 = strtol(argv[1], NULL, 16);
     } else {
-        num1 = (long)atoi(argv[1]);
+        //num1 = (long)atoi(argv[1]);
+        num1 = strtol(argv[1], NULL, 10);
     }
 
     if(checkNum2 == 1) {
@@ -50,7 +51,8 @@ int main(int argc, char* argv[]) {
         // conver to hex
         num2 = strtol(argv[2], NULL, 16);
     } else {
-        num2 = (long)atoi(argv[2]);
+        //num2 = (long)atoi(argv[2]);
+        num2 = strtol(argv[2], NULL, 10);
     }
 
     // calculate GCD
