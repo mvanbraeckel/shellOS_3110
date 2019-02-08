@@ -85,12 +85,16 @@ int main() {
             }
         }
 
-        // check for internal/built-in command
+        // check for internal/built-in commands
         if(args[0] != NULL) {
             if(argc == 1 && strcmp(args[0], "exit") == 0) {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
+                // remove < or > and next argument (these shouldn't count as arguments)
+                if(writeOut || readIn) {
+                    args[argc-2] = args[argc-1] = NULL;
+                }
                 listargs(argc, args);
                 continue; //skip to next loop
 
