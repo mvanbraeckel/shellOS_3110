@@ -8,10 +8,13 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/signal.h>
+#include <signal.h>
 #include <pwd.h>
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#define _XOPEN_SOURCE 700
 
 // ================================= FUNCTION PROTOTYPES =================================
 void signalHandler(int signalPassed);

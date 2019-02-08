@@ -4,7 +4,7 @@ CFLAGS = -g -Wall -std=c99
 all: gcd ish git
 
 ish: ish.o lex.yy.o
-	$(CC) $(CFLAGS) -D_XOPEN_SOURCE=700 ish.o lex.yy.o -o ish -lfl  
+	$(CC) $(CFLAGS) ish.o lex.yy.o -o ish -lfl  
 ish.o: ish.c
 	$(CC) $(CFLAGS) -D_XOPEN_SOURCE=700 -c ish.c
 
