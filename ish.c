@@ -31,11 +31,14 @@ extern char **getln();
 //const char *mypath[] = { "./", "/usr/bin/", "/bin/", NULL};
 const char myShellName[] = "vbshell";
 
+/**
+ * Main runs 'vbshell' simple shell program
+ */
 int main() {
     // declare variables
     char hostname[_SC_HOST_NAME_MAX+1];
     int hasAmp, writeOut, readIn;
-
+    // for handling '&' background execution (asynchronous)
     struct sigaction sigAct;
     memset(&sigAct, 0, sizeof(struct sigaction));
     sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
@@ -83,11 +86,9 @@ int main() {
         if(argc >= 3) {
             if(strcmp(args[argc-2], ">") == 0) {
                 writeOut = 1;
-                printf("\tfound >\n");
             }
             else if(strcmp(args[argc-2], "<") == 0) {
                 readIn = 1;
-                printf("\tfound <\n");
             }
         }
 
@@ -113,25 +114,19 @@ int main() {
             }
         }
 
-        // print all the arguments from lex
-        /*for(int i = 0; args[i] != NULL; i++) {
-            fprintf(stdout, "arg[%d]: %s\n", i, args[i]);
-        }*/
-
-        /* If necessary locate executable using mypath array */
-
         // set flags and signal's default action
         // if signal interrupted a system call, restart
         // don't want a notification if the child was stopped or resumed from things other than termination
-        sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP; // may not need SA_NOCLDSTOP?
-        sigAct.sa_handler = SIG_IGN; // set default handler to SIGCHLD
-        sigaction(SIGCHLD, &sigAct, NULL); // set behaviour of SIGCHLD
+        sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;// may not need SA_NOCLDSTOP?
+        sigAct.sa_handler = SIG_IGN;                // set default handler to SIGCHLD
+        sigaction(SIGCHLD, &sigAct, NULL);          // set behaviour of SIGCHLD
         
         // Launch executable
         pid_t pid = fork();
         int exeFlag = -1;
 
         if(pid < 0) {
+            // catch forking failure
             fprintf(stderr, "%s: %s: ", myShellName, args[0]);
             perror("fork failed");
             exit(EXIT_FAILURE);
@@ -140,21 +135,23 @@ int main() {
             if(writeOut) {
                 // replace stdout w/ the file passed
                 freopen(args[argc-1], "w+", stdout);
-                // replace > and filename w/ NULL to remove
+                // replace > and filename w/ NULL to remove them
                 args[argc-2] = args[argc-1] = NULL;
                 exeFlag = execvp(args[0], args);
-                if(exeFlag == -1) { // need to check errno :TODO
+                if(exeFlag == -1) { // catch execvp error
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
                 }
 
             } else if(readIn) {
+                // replace stdin w/ file passed
                 freopen(args[argc-1], "r", stdin);
+                // replace < w/ filename, then replace the old filename argument w/ NULL to remove it
                 args[argc-2] = args[argc-1];
                 args[argc-1] = NULL;
                 exeFlag = execvp(args[0], args);
-                if(exeFlag == -1) { // need to check errno :TODO
+                if(exeFlag == -1) { // catch execvp error
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -162,7 +159,7 @@ int main() {
 
             } else {
                 exeFlag = execvp(args[0], args);
-                if(exeFlag == -1) { // need to check errno :TODO
+                if(exeFlag == -1) { // catch execvp error
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -175,12 +172,9 @@ int main() {
                 sigAct.sa_handler = &signalChildHandler; // set the behaviour to custom handler
                 sigaction(SIGCHLD, &sigAct, NULL);
             } else {
-                waitpid(pid, NULL, 0); // check error TODO
+                waitpid(pid, NULL, 0);
             }
-            //printf("child exited/completed\n");
-
         } // end of if
-
     } // end infinite while loop
 
     return 0;
@@ -188,6 +182,10 @@ int main() {
 
 // ======================================= HELPERS =======================================
 
+/**
+ * Custom signal handler for SIGCHLD when getln() has '&' as last argument
+ *  --> resets errno if process was interrupted
+ */
 void signalChildHandler(int signalPassed) {
     wait(NULL);
     // if system call interrupted it, reset 
@@ -262,8 +260,7 @@ long calcGCD(long a, long b) {
  * @return 16 if it's a hexadecimal number, 10 otherwise (default decimal)
  */
 int isHex(char* strNum) {
-    // is of hex form if the 'x' is in the right spot
-    // account for negatives
+    // is of hex form if the 'x' is in the right spot (account for negatives)
     int len = strlen(strNum);
     if(len > 0 && strNum[0] == '-') {
         if(len > 2 && strNum[2] == 'x') {
