@@ -36,7 +36,7 @@ int main() {
     char hostname[_SC_HOST_NAME_MAX+1];
     int hasAmp, writeOut, readIn;
 
-    struct sigaction sigAct = {{0}};
+    struct sigaction sigAct;
     memset(&sigAct, 0, sizeof(struct sigaction));
     sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
     
