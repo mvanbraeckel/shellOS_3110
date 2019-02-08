@@ -75,8 +75,14 @@ int main() {
 
         // check for file redirect, set flag
         if(argc >= 3) {
-            if(strcmp(args[argc-2], ">") == 0) writeOut = 1;
-            else if(strcmp(args[argc-2], "<") == 0) readIn = 1;
+            if(strcmp(args[argc-2], ">") == 0) {
+                writeOut = 1;
+                printf("\tfound >\n");
+            }
+            else if(strcmp(args[argc-2], "<") == 0) {
+                readIn = 1;
+                printf("\tfound <\n");
+            }
         }
 
         // check for internal/built-in command
@@ -111,8 +117,8 @@ int main() {
 
         if(pid < 0) {
             fprintf(stderr, "%s: %s: ", myShellName, args[0]);
-                perror("fork failed");
-                exit(EXIT_FAILURE);
+            perror("fork failed");
+            exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
             if(execvp(args[0], args) == -1) { // need to check errno :TODO
