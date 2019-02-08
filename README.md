@@ -23,6 +23,12 @@ NOTE: I have incorporated the C99 standard into the compilation for my *.c files
 
 NOTE: We were given the lex.c file to use with "flex lex" that creates a "lex.yy.c" file to be used to create a "lex.yy.o" file. When compiling lex.yy.c into lex.yy.o it gives two warnings: for 'yyunput' and 'input' functions defined but not used. As this is on your side, I assume these are fine and no deductions for them. Also, I added a regex command to the lex.c that takes quote (" or ') encapsulated things as a single argument, and I don't count < or > and the following filename for redirection (like the lecture slides show).
 
+NOTE: May print the error message for an unsupported command on the same line as the prompt rather than before (only happens sometimes)
+
+NOTE: All things stated in this document that haven't been confirmed with a TA or the professor are assumed. Please also see my in-code comments for more/extra information.
+
+# MAKEFILE
+
 _HOW TO RUN_
 
 1) Type "make"
@@ -52,9 +58,22 @@ Output: GCD(-0xc, 20) = 4
 _HOW TO RUN_
 
 @PRE must be in vbshell program "./ish"
+
+eg. args [arg1, arg2, arg3, ...]
+Input: args 1 2 3 4 5 "6 7 8"
+Output: argc = 4
+
+# LCM
+
+_HOW TO RUN_
+
+NOTE: this was one of the first exercises I did in my Java programming class in high school, so it was the first math function that I immediately thought of when I read the description to implement our own internal command
+@PRE must be in vbshell program "./ish"
 -it uses Euclid's algorithm to compute the lowest common multiple, and prints it
 -input must be a non-negative numbers (lowest common multiple would be -infinity always)
 -input may be in decimal form (eg. "12") or hexadecimal form and must begin w/ "0x" (eg. "0xc")
 -will give a usage statement for bad input (give an additional error message for valid argument count, but invalid input for number)
 
-eg. lcm 6 0x5
+eg. lcm <positive integer 1> <positive integer 2>
+Input: lcm 6 0xf
+Output: LCM(6, 0xf) = 30

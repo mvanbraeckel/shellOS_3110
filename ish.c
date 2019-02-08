@@ -112,8 +112,10 @@ int main() {
 
             } else if(strcmp(args[0], "args") == 0) {
                 // first, remove < or > and next argument (these shouldn't count as arguments)
-                if(writeOut || readIn) args[argc-2] = args[argc-1] = NULL;
-                argc -= 2;
+                if(writeOut || readIn) {
+                    args[argc-2] = args[argc-1] = NULL;
+                    argc -= 2;
+                }
                 listargs(argc, args);
                 continue; //skip to next loop
 
@@ -324,7 +326,7 @@ void listargs(int argc, char* argv[]) {
 void lcm(int argc, char* argv[]) {
     // check that proper #of arguments were inputted
     if(argc != 3) {
-        fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <positive integer 1> <positive integer 2>\n", argv[0]);
         return;
     }
 
