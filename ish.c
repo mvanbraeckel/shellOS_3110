@@ -138,10 +138,12 @@ int main() {
 
         } else if(pid == 0) { // child process
             if(writeOut) {
+                // replace stdout w/ the file passed
                 freopen(args[argc-1], "w+", stdout);
+                // replace > and filename w/ NULL to remove
                 args[argc-2] = args[argc-1] = NULL;
                 exeFlag = execvp(args[0], args);
-                if(exeFlag) { // need to check errno :TODO
+                if(exeFlag == -1) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -152,7 +154,7 @@ int main() {
                 args[argc-2] = args[argc-1];
                 args[argc-1] = NULL;
                 exeFlag = execvp(args[0], args);
-                if(exeFlag) { // need to check errno :TODO
+                if(exeFlag == -1) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -160,7 +162,7 @@ int main() {
 
             } else {
                 exeFlag = execvp(args[0], args);
-                if(exeFlag) { // need to check errno :TODO
+                if(exeFlag == -1) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
