@@ -19,7 +19,7 @@ NOTE: This was made in 2 days (thank you Canada for clutch snowday that pushed b
 
 NOTE: since the A1 description only said to "refer to the coding style guidelines", they are not required because they aren't coding conventions (guidelines are just recommendations)
 
-NOTE: I have incorporated the C99 standard into the compilation for my *.c files so it is a little more standardized.
+NOTE: I have incorporated the C99 standard into the compilation for my *.c files so it is a little more standardized. I also have a bunch of neccessary include statements. I also define _XOPEN_SOURCE=700 in the makefile so things work properly.
 
 NOTE: We were given the lex.c file to use with "flex lex" that creates a "lex.yy.c" file to be used to create a "lex.yy.o" file. When compiling lex.yy.c into lex.yy.o it gives two warnings: for 'yyunput' and 'input' functions defined but not used. As this is on your side, I assume these are fine and no deductions for them. Also, I added a regex command to the lex.c that takes quote (" or ') encapsulated things as a single argument, and I don't count < or > and the following filename for redirection (like the lecture slides show).
 
@@ -87,4 +87,25 @@ Output: LCM(6, 0xf) = 30
 # EXPLANATIONS based on A1 DESCRIPTION
 
 #1
-I used the user ID to get the password uid passwd struct, then used the struct
+I used the user ID to get the password uid passwd struct, then used the struct to get the user name. I also got the hostname in a standard way. I checked if it was root/superuser by checking if user ID was 0, which means it is, and changed the prompt to a # instead of $
+
+#2.1
+If "exit" was the only command line argument, I exited with success
+
+#2.2
+Incorporated execvp() calls to run external commands like "ls", making sure that I fork and have the parent wait for the child to finish. Terminal is blocked and can't be used until child process finishes.
+
+#2.3
+Same as 2.2: it also accomplshes flags (eg. "ls -l" works)
+
+#2.4
+Used sigaction and custom signal handling behaviours I made to wait until that specific child process finishes and then it's collected by the parent's waitpid call to terminate it properly (avoids creating zombies). Essentially, I have custom behaviour defined using SIGCHLD. Also, if it's interrupted, I have catching so it doesn't break. Please see in-code comments for more detailed explanation. Basically, if & is last argument, process is run asynchronously in the background. Terminal can still be used. Child process is properly terminated and no zombie is created.
+
+#2.5
+I used freopen to redirect to the given file instead of stdout (eg. "ls >1.txt" writes to that file instead of terminal)
+
+#2.6
+I used freopen to redirect input to be from a file instead of stdin (eg. "sort <1.txt" uses that file and sorts it and outputs to terminal)
+
+#3
+see above GCD, LISTARGS, and LCM for this
