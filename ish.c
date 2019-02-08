@@ -129,6 +129,7 @@ int main() {
         
         // Launch executable
         pid_t pid = fork();
+        int exeFlag = -1;
 
         if(pid < 0) {
             fprintf(stderr, "%s: %s: ", myShellName, args[0]);
@@ -139,7 +140,8 @@ int main() {
             if(writeOut) {
                 freopen(args[argc-1], "w+", stdout);
                 args[argc-2] = args[argc-1] = NULL;
-                if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                exeFlag = execvp(args[0], args);
+                if(exeFlag) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -149,14 +151,16 @@ int main() {
                 freopen(args[argc-1], "r", stdin);
                 args[argc-2] = args[argc-1];
                 args[argc-1] = NULL;
-                if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                exeFlag = execvp(args[0], args);
+                if(exeFlag) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
                 }
 
             } else {
-                if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                exeFlag = execvp(args[0], args);
+                if(exeFlag) { // need to check errno :TODO
                     fprintf(stderr, "%s: %s: ", myShellName, args[0]);
                     perror("");
                     exit(EXIT_FAILURE);
@@ -164,7 +168,7 @@ int main() {
             }
                  
         } else { // parent process (waits for child to finish)
-            if(hasAmp) {
+            if(hasAmp && exeFlag > 0) {
                 sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
                 sigAct.sa_handler = &signalChildHandler; // set the behaviour to custom handler
                 sigaction(SIGCHLD, &sigAct, NULL);
