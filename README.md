@@ -23,11 +23,13 @@ NOTE: I have incorporated the C99 standard into the compilation for my *.c files
 
 NOTE: We were given the lex.c file to use with "flex lex" that creates a "lex.yy.c" file to be used to create a "lex.yy.o" file. When compiling lex.yy.c into lex.yy.o it gives two warnings: for 'yyunput' and 'input' functions defined but not used. As this is on your side, I assume these are fine and no deductions for them. Also, I added a regex command to the lex.c that takes quote (" or ') encapsulated things as a single argument, and I don't count < or > and the following filename for redirection (like the lecture slides show).
 
-NOTE: May print the error message for an unsupported command on the same line as the prompt rather than before (only happens sometimes)
+NOTE: May print the error message for an unsupported command on the same line as the prompt rather than before (only happens sometimes: of these times, more common when involving file redirection or &)
 
 NOTE: All things stated in this document that haven't been confirmed with a TA or the professor are assumed. Please also see my in-code comments for more/extra information.
 
-# MAKEFILE
+NOTE: If this file is really messy due to formatting issues, please let me know and I can submit it as an alternate file format. Also, if something is not understood or misunderstood, I can meet to walkthrough my program.
+
+# MAKEFILE, THEN RUN THE SHELL
 
 _HOW TO RUN_
 
@@ -58,8 +60,10 @@ Output: GCD(-0xc, 20) = 4
 _HOW TO RUN_
 
 NOTE: I have accounted for "" and '' encapuslation by modifying the given lex.c with a new regex command called QUOTED and checked for it first
-NOTE: I have accounted for 
+NOTE: I have accounted for file redirection, where the < or > and the filename aren't counted as arguments
+NOTE: I have accounted for & as the last argument to not count as an argument
 @PRE must be in vbshell program "./ish"
+-may have up to 100 arguments (including "args" command), and will print the argument count other than itself
 
 eg. args [arg1, arg2, arg3, ...]
 Input: args 1 2 3 4 5 "6 7 8"
@@ -79,3 +83,8 @@ NOTE: this was one of the first exercises I did in my Java programming class in 
 eg. lcm <positive integer 1> <positive integer 2>
 Input: lcm 6 0xf
 Output: LCM(6, 0xf) = 30
+
+# EXPLANATIONS based on A1 DESCRIPTION
+
+#1
+I used the user ID to get the password uid passwd struct, then used the struct

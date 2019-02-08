@@ -93,6 +93,7 @@ int main() {
         if(strcmp(args[argc-1], "&") == 0) {
             hasAmp = 1;
             args[argc-1] = NULL; //remove after setting flag (not a real argument)
+            argc--;
         }
 
         // check for file redirect, set flag
@@ -115,9 +116,6 @@ int main() {
                 if(writeOut || readIn) {
                     args[argc-2] = args[argc-1] = NULL;
                     argc -= 2;
-                } else if(hasAmp) { // do the same for &
-                    args[argc-1] = NULL;
-                    argc--;
                 }
                 listargs(argc, args);
                 continue; //skip to next loop
