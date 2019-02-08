@@ -168,7 +168,7 @@ int main() {
             }
                  
         } else { // parent process (waits for child to finish)
-            if(hasAmp && exeFlag > 0) {
+            if(hasAmp) {
                 sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
                 sigAct.sa_handler = &signalChildHandler; // set the behaviour to custom handler
                 sigaction(SIGCHLD, &sigAct, NULL);
