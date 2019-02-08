@@ -19,6 +19,7 @@ lex.yy.c: lex.c
 
 git: *.c Makefile
 	git add Makefile
+	git add README.md
 	git add *.c
 	git commit -m "automatic backup via makefile"
 	git remote rm origin
