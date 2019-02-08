@@ -90,7 +90,10 @@ int main() {
 
         hasAmp = writeOut = readIn = 0; //reset flags
         // check for ampersand at the end, set flag
-        if(strcmp(args[argc-1], "&") == 0) hasAmp = 1;
+        if(strcmp(args[argc-1], "&") == 0) {
+            hasAmp = 1;
+            args[argc-1] = NULL; //remove after setting flag (not a real argument)
+        }
 
         // check for file redirect, set flag
         if(argc >= 3) {

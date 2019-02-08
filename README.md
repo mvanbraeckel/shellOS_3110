@@ -15,11 +15,13 @@ LINKS USED:
 - https://docs.oracle.com/cd/E19455-01/806-4750/signals-7/index.html?fbclid=IwAR1fzKDNU-49mrHsO4z6wWvw8bAXp3_cYInEkzVn87xzloITcfwH3i2Qt24
 - https://stackoverflow.com/questions/12663270/freopen-and-execvp-in-c
 
-NOTE: This was made in 2 days (thank you Canada for clutch snowday that pushed back this deadline 24 hours). I lost all my work since my VM broke and won't start-up again. All recovery methods I have tried also did not work. I have done as much as I possibly can in the time I had. If I didn't lose all my work up until Wednesday my shell would have been much better. Unfortunately, I was naive and didn't backup my work anywhere since I've never had problems before. I learned my lesson now and have backed-up to git since then (as seen by my auto git add, commit, push sequence added to Makefile). Due to time constraints, I have "check[ed] and correctly handle[d] the return values of Every system call" as stated in the description for theis assignment. Since it never said anything, I have assumed that we did not need to check errno if it wasn't ABSOLUTELY necessary to.
+NOTE: This was made in 2 days (thank you Canada for clutch snowday that pushed back this deadline 24 hours). I lost all my work since my VM broke and won't start-up again. All recovery methods I have tried also did not work. I have done as much as I possibly can in the time I had. If I didn't lose all my work up until Wednesday my shell would have been much better. Unfortunately, I was naive and didn't backup my work anywhere since I've never had problems before. I learned my lesson now and have backed-up to git since then (as seen by my auto git add, commit, push sequence added to Makefile). Due to time constraints, I have "check[ed] and correctly handle[d] the return values of Every system call" as stated in the description for theis assignment. Since it never said anything, I have assumed that we did not need to check errno if it wasn't ABSOLUTELY necessary to. I usually use built in system calls to help error check (coded in a way they do it for me).
 
 NOTE: since the A1 description only said to "refer to the coding style guidelines", they are not required because they aren't coding conventions (guidelines are just recommendations)
 
-NOTE: 
+NOTE: I have incorporated the C99 standard into the compilation for my *.c files so it is a little more standardized.
+
+NOTE: We were given the lex.c file to use with "flex lex" that creates a "lex.yy.c" file to be used to create a "lex.yy.o" file. When compiling lex.yy.c into lex.yy.o it gives two warnings: for 'yyunput' and 'input' functions defined but not used. As this is on your side, I assume these are fine and no deductions for them. Also, I added a regex command to the lex.c that takes quote (" or ') encapsulated things as a single argument, and I don't count < or > and the following filename for redirection (like the lecture slides show).
 
 _HOW TO RUN_
 
@@ -27,7 +29,7 @@ _HOW TO RUN_
     --> will create all the necessary files
 2) Use "./ish" when in the submission folder to run the shell program (as assigment files wanted)
     --> you should see the prompt "[user@host]$ " (# instead of $ if ./ish is run as superuser/root) (either after typing "su", or calling "sudo ./ish")
-3) Now, you should be in my "vbshell" and it will work with execvp() for calls like "ls" inlcuding if it has any flags. Also, you can redirect output to files, and redirect input from files. Calling a proces w/ the last argument as '&' will execute it asynchronously in the background. I have also included 3 built-in (i.e. internal) commands that can be run used (see below).
+3) Now, you should be in my "vbshell" and it will work with execvp() for calls like "ls" inlcuding if it has any flags. Also, you can redirect output to files, and redirect input from files. Calling a proces w/ the last argument as '&' will execute it asynchronously in the background. I have also included 3 built-in (i.e. internal) commands that can be run used (see below). Since these are built-in, it's unnecessary to fork.
 
 # GCD
 
