@@ -33,6 +33,10 @@ int main() {
     // declare variables
     char hostname[_SC_HOST_NAME_MAX+1];
     int hasAmp, writeOut, readIn;
+
+    struct sigaction sigAct = {{0}};
+    memset(&sigAct, 0, sizeof(struct sigaction));
+    sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
     
     // infinitely loop until "exit" is entered
     while(1) {
@@ -150,7 +154,6 @@ int main() {
                     exit(EXIT_FAILURE);
                 }
             }
-            
                  
         } else { // parent process (waits for child to finish)
             if(hasAmp) {
@@ -265,8 +268,8 @@ int isHex(char* strNum) {
  * @param char* argv[] -used for the array of arguments
  */
 void listargs(int argc, char* argv[]) {
-    // check that proper #of arguments were inputted (>1)
-    if(argc == 1) {
+    // check that proper #of arguments were inputted (must have at least one extra argument)
+    if(argc <= 1) {
         fprintf(stderr, "Usage: %s [arg1, arg2, arg3, ...]\n", argv[0]);
         return;
     }
