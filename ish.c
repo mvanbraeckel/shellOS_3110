@@ -114,9 +114,9 @@ int main() {
         }
 
         // print all the arguments from lex
-        for(int i = 0; args[i] != NULL; i++) {
+        /*for(int i = 0; args[i] != NULL; i++) {
             fprintf(stdout, "arg[%d]: %s\n", i, args[i]);
-        }
+        }*/
 
         /* If necessary locate executable using mypath array */
 
