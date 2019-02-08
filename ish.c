@@ -134,7 +134,7 @@ int main() {
                 }
 
             } else if(readIn) {
-                FILE *fp = freopen(args[argc-1], "r", stdin);
+                freopen(args[argc-1], "r", stdin);
                 args[argc-2] = args[argc-1];
                 args[argc-1] = NULL;
                 if(execvp(args[0], args) == -1) { // need to check errno :TODO
