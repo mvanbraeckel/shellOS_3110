@@ -121,13 +121,6 @@ int main() {
             exit(EXIT_FAILURE);
 
         } else if(pid == 0) { // child process
-            if(execvp(args[0], args) == -1) { // need to check errno :TODO
-                fprintf(stderr, "%s: %s: ", myShellName, args[0]);
-                perror("");
-                exit(EXIT_FAILURE);
-            }
-                 
-        } else { // parent process (waits for child to finish)
             if(writeOut) {
                 freopen(args[argc-1], "w+", stdout);
                 args[argc-2] = args[argc-1] = NULL;
@@ -137,7 +130,16 @@ int main() {
                     exit(EXIT_FAILURE);
                 }
 
+            } else {
+                if(execvp(args[0], args) == -1) { // need to check errno :TODO
+                    fprintf(stderr, "%s: %s: ", myShellName, args[0]);
+                    perror("");
+                    exit(EXIT_FAILURE);
+                }
             }
+            
+                 
+        } else { // parent process (waits for child to finish)
             if(hasAmp) {
                 sigset(SIGCHLD, signalHandler);
             } else {
