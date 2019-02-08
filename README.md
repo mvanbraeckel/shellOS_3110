@@ -57,11 +57,13 @@ Output: GCD(-0xc, 20) = 4
 
 _HOW TO RUN_
 
+NOTE: I have accounted for "" and '' encapuslation by modifying the given lex.c with a new regex command called QUOTED and checked for it first
+NOTE: I have accounted for 
 @PRE must be in vbshell program "./ish"
 
 eg. args [arg1, arg2, arg3, ...]
 Input: args 1 2 3 4 5 "6 7 8"
-Output: argc = 4
+Output: argc = 6, args = 1, 2, 3, 4, 5, "6 7 8"
 
 # LCM
 

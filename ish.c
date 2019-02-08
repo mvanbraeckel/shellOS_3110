@@ -115,6 +115,9 @@ int main() {
                 if(writeOut || readIn) {
                     args[argc-2] = args[argc-1] = NULL;
                     argc -= 2;
+                } else if(hasAmp) { // do the same for &
+                    args[argc-1] = NULL;
+                    argc--;
                 }
                 listargs(argc, args);
                 continue; //skip to next loop
