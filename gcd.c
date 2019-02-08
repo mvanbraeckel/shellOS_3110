@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     // check that both numbers are valid integers in hex or decimal
     if(strcmp(ptr1, "") != 0 || strcmp(ptr2, "") != 0) {
         // display error msg before exiting
-        fprintf(stderr, "Error: arguments must be valid positive integers in decimal or " \
+        fprintf(stderr, "Invalid Input: arguments must be valid positive integers in decimal or " \
                 "hexadecimal (0x0) format\n");
         fprintf(stderr, "Usage: %s <integer number 1> <integer number 2>\n", argv[0]);
         exit(EXIT_FAILURE);
