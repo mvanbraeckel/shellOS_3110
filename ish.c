@@ -91,10 +91,9 @@ int main() {
                 exit(EXIT_SUCCESS);
 
             } else if(strcmp(args[0], "args") == 0) {
-                // remove < or > and next argument (these shouldn't count as arguments)
-                if(writeOut || readIn) {
-                    args[argc-2] = args[argc-1] = NULL;
-                }
+                // first, remove < or > and next argument (these shouldn't count as arguments)
+                if(writeOut || readIn) args[argc-2] = args[argc-1] = NULL;
+                argc -= 2;
                 listargs(argc, args);
                 continue; //skip to next loop
 
