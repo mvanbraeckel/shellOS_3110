@@ -1,3 +1,7 @@
+# Mitchell Van Braeckel (mvanbrae@uoguelph.ca) 100297
+# 07/02/2019
+# CIS*3110: Operating Systems A1 - simple shell
+ 
 CC = gcc
 CFLAGS = -g -Wall -std=c99
 

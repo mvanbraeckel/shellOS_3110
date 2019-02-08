@@ -1,6 +1,6 @@
 /**
  * Mitchell Van Braeckel (mvanbrae@uoguelph.ca) 100297
- * 06/02/2019
+ * 07/02/2019
  * CIS*3110: Operating Systems A1 - simple shell
  */
 #include <stdio.h>
@@ -168,11 +168,12 @@ int main() {
                  
         } else { // parent process (waits for child to finish)
             if(hasAmp) {
+                // set the behaviour as custom handler since we want it to run it background and not block
                 sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
-                sigAct.sa_handler = &signalChildHandler; // set the behaviour to custom handler
+                sigAct.sa_handler = &signalChildHandler;
                 sigaction(SIGCHLD, &sigAct, NULL);
             } else {
-                waitpid(pid, NULL, 0);
+                waitpid(pid, NULL, 0); // wait for specific child to finish
             }
         } // end of if
     } // end infinite while loop
