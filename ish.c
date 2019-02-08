@@ -14,10 +14,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
-#define _XOPEN_SOURCE 700
 
 // ================================= FUNCTION PROTOTYPES =================================
-void signalHandler(int signalPassed);
+void signalChildHandler(int signalPassed);
 
 void gcd(int argc, char* argv[]);
 long calcGCD(long a, long b);
@@ -118,11 +117,17 @@ int main() {
         for(int i = 0; args[i] != NULL; i++) {
             fprintf(stdout, "arg[%d]: %s\n", i, args[i]);
         }
-        
+
         /* If necessary locate executable using mypath array */
 
+        // set flags and signal's default action
+        // if signal interrupted a system call, restart
+        // don't want a notification if the child was stopped or resumed from things other than termination
+        sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP; // may not need SA_NOCLDSTOP?
+        sigAct.sa_handler = SIG_IGN; // set default handler to SIGCHLD
+        sigaction(SIGCHLD, &sigAct, NULL); // set behaviour of SIGCHLD
+        
         // Launch executable
-        sigset(SIGCHLD, SIG_IGN);
         pid_t pid = fork();
 
         if(pid < 0) {
@@ -160,9 +165,11 @@ int main() {
                  
         } else { // parent process (waits for child to finish)
             if(hasAmp) {
-                sigset(SIGCHLD, signalHandler);
+                sigAct.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+                sigAct.sa_handler = &signalChildHandler; // set the behaviour to custom handler
+                sigaction(SIGCHLD, &sigAct, NULL);
             } else {
-                wait(NULL); // check error TODO
+                waitpid(pid, NULL, 0); // check error TODO
             }
             //printf("child exited/completed\n");
 
@@ -175,7 +182,7 @@ int main() {
 
 // ======================================= HELPERS =======================================
 
-void signalHandler(int signalPassed) {
+void signalChildHandler(int signalPassed) {
     wait(NULL);
     // if system call interrupted it, reset 
     if(errno == EINTR) {
