@@ -5,7 +5,7 @@
 CC = gcc
 CFLAGS = -g -Wall -std=c99
 
-all: ish git
+all: ish
 
 ish: ish.o lex.yy.o
 	$(CC) $(CFLAGS) ish.o lex.yy.o -o ish -lfl  
